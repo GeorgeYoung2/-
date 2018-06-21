@@ -1,0 +1,8 @@
+#1.1 起步 连接网络
+导入目标网页的超链接，获取html内容
+
+from urllib.request import urlopen
+html = urlopen('http://xxx')
+print(html.read())
+
+以上代码将目标连接的html内容存储到变量html中,通过read方法读取整个html的内容。
