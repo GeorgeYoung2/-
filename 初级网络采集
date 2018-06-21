@@ -4,5 +4,30 @@
 from urllib.request import urlopen
 html = urlopen('http://xxx')
 print(html.read())
-
 以上代码将目标连接的html内容存储到变量html中,通过read方法读取整个html的内容。
+
+通过使用BeautifulSoup库下的BeautifulSoup对象，将HTML结果展示为python对象
+
+from bs4 import BeautifulSoup ①
+from urllib.request import urlopen
+html = urlopen('http://xxx')
+bsobj = BeautifulSoup(html, 'html.parser') ②
+print(bsobj.h1) ③
+以上代码将html传入，创建了一个名为bsobj的BeautifulSoup对象，从而将html内容按照标签分开
+③处打印了标签为h1的内容
+
+处理异常
+往往某些链接由于服务器不存在(500 Internal server error)或者该网页不存在(404 Not Found)而会报错,python都会报错为HTTPError
+这里使用try/except/else 处理异常
+
+---snip---
+try:
+  html = urlopen('http://xxx')
+except HTTPError as e:
+  ---
+else:
+  bsobj = BeautifulSoup(html, 'html.parser')
+  ---snip---
+
+另外一种异常是由于html内容中没有调用的子标签，此时报错为AttributeError
+同样的，使用try/except/else处理之，对异常返回None即可
