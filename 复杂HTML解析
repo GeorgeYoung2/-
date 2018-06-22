@@ -1,0 +1,32 @@
+#2.1 复杂html解析
+通过html标签抽取特定的内容
+首先使用bs4下两个函数find()和findAll()
+其中find()函数查找html页面下第一个指定的标签、属性的内容
+find()函数传入标签，需要加入属性则应采取字典的方法。属性可有值，同样使用字典传入
+
+from urllib.request import urlopen
+from bs4 import BeautuifulSoup
+html = urlopen('http://xxx')
+bsobj = BeautifulSoup(html, 'html.parser')
+select_text = bsobj.find('span':{'class':'green'})
+# OR LIKE IT #
+select_texts = bsobj.findAll('span':{'class':'green'})
+print(select_text.get_text())
+for select_text in select_texts:
+  print(select_text)
+这里涉及到一个函数find，找出span标签中属性class的值为green的第一个标签的内容
+findAll则是找出整个页面中满足条件的，存储为一个列表
+这里get_text()函数将标签去除，只获取两个标签之间的内容
+此外可以向find和findAll函数中传递参数text，其值是两个标签之间的内容
+
+可以通过使用children和descendants函数获得一个标签下的子标签或是后代标签，这两个概念是不一样的
+此外，使用函数next.siblings()可以获得兄弟标签，可以广泛用于获取表格的内容，此外另一个类似的函数为previous.siblings()则是获得前面标签
+
+使用正则表达式，获取符合规则的标签或内容。
+具体参见正则表达式
+
+获取标签的属性值，有时候更有意义，比如获取超链接，一般是在<a>中，属性href的值
+可以使用Tag.attrs 获取所有的属性，同时会存储在一个字典上。
+eg. a.attrs['href']可以获得超链接
+
+使用lxml和HTMLparser解析HTML语言标签内容，是区别于beautifulsoup的新的库
